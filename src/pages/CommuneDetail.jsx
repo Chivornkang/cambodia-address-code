@@ -6,6 +6,7 @@ import VillageCard from '../components/VillageCard'
 import { DKEY, cKeyOf, useApp } from '../store'
 import { norm } from '../searchIndex'
 import { useProvinceData } from '../useProvinceData'
+import { districtPath, provincePath } from '../slug'
 import { biCommune, biDistrict, biProvince, useSeo } from '../useSeo'
 
 export default function CommuneDetail() {
@@ -46,7 +47,7 @@ export default function CommuneDetail() {
   }, [commune, hl])
 
   if (provinces && !province) return <NotFoundBox to="/provinces" />
-  if (data && !commune) return <NotFoundBox to={`/province/${pcode}`} />
+  if (data && !commune) return <NotFoundBox to={provincePath(province)} />
   if (!province || !commune) {
     return (
       <div className="container">
@@ -63,8 +64,8 @@ export default function CommuneDetail() {
       <DetailHero
         crumbs={[
           { to: '/provinces', label: t('navProvinces') },
-          { to: `/province/${pcode}`, label: fullName(province) },
-          { to: `/district/${dcode}`, label: typed(dk, district) },
+          { to: provincePath(province), label: fullName(province) },
+          { to: districtPath(province, district), label: typed(dk, district) },
           { label: typed(ck, commune) },
         ]}
         badges={

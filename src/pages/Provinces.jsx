@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import PlaceCard from '../components/PlaceCard'
 import { useApp } from '../store'
+import { provincePath } from '../slug'
 import { useSeo } from '../useSeo'
 
 export default function Provinces() {
@@ -57,7 +58,7 @@ export default function Provinces() {
         {list.map((p) => (
           <PlaceCard
             key={p.code}
-            to={`/province/${p.code}`}
+            to={provincePath(p)}
             code={p.code}
             post={pc(p.code)}
             title={fullName(p)}

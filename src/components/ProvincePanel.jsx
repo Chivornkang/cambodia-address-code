@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { DKEY, useApp } from '../store'
+import { districtPath, provincePath } from '../slug'
 import { useProvinceData } from '../useProvinceData'
 import Stat from './Stat'
 
@@ -37,14 +38,14 @@ export default function ProvincePanel({ province, onClose }) {
       <div className="chips">
         {data
           ? data.d.map((d) => (
-              <Link className="chip" key={d.code} to={`/district/${d.code}`} title={typed(DKEY[d.t], d)}>
+              <Link className="chip" key={d.code} to={districtPath(province, d)} title={typed(DKEY[d.t], d)}>
                 {nm(d)[0]}
               </Link>
             ))
           : Array.from({ length: Math.min(province.districts, 8) }, (_, i) => <span className="chip skeleton" key={i} />)}
       </div>
 
-      <Link className="btn primary block" to={`/province/${province.code}`}>
+      <Link className="btn primary block" to={provincePath(province)}>
         {t('viewDetails')} →
       </Link>
     </div>

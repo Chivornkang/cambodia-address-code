@@ -1,5 +1,5 @@
 import { useDeferredValue, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import DetailHero from '../components/DetailHero'
 import NotFoundBox from '../components/NotFoundBox'
 import PlaceCard from '../components/PlaceCard'
@@ -7,27 +7,35 @@ import VillageCard from '../components/VillageCard'
 import { DKEY, cKeyOf, useApp } from '../store'
 import { useProvinceData } from '../useProvinceData'
 import { useScoped } from '../useScoped'
+import { districtPath, matchProvince, provincePath } from '../slug'
 import { biProvince, useSeo } from '../useSeo'
 
 const LIMIT = 60
 
 export default function ProvinceDetail() {
-  const { code } = useParams()
+  const { code: key } = useParams() // province name slug (or legacy 2-digit code)
   const {
     t, num, nm, typed, typed2, fullName, describe, pc, provinces, loadError, lblDistricts, lblCommunes,
   } = useApp()
+  const { provinces: plist } = useApp()
+  const code = matchProvince(plist, key)?.code
+  const nav = useNavigate()
   const { data, error } = useProvinceData(code)
   const [q, setQ] = useState('')
   const dq = useDeferredValue(q)
   useEffect(() => setQ(''), [code])
 
   const province = provinces?.find((p) => p.code === code)
+  // old /province/01 links → readable name URL
+  useEffect(() => {
+    if (province && key !== provincePath(province).split('/')[2]) nav(provincePath(province), { replace: true })
+  }, [province, key, nav])
   const res = useScoped(data, dq, null)
   useSeo(
     province && `${biProvince(province)} | លេខកូដតំបន់ Postcode · Cambodia Explorer`,
     province &&
       `ផែនទី និងលេខកូដតំបន់ ${province.kh}៖ ${province.districts} ស្រុក/ក្រុង/ខណ្ឌ ${province.communes} ឃុំ/សង្កាត់ ${province.villages} ភូមិ។ Map, postcode and area codes of ${province.en}, Cambodia.`,
-    `/province/${code}`
+    province && provincePath(province)
   )
 
   if (provinces && !province) return <NotFoundBox to="/provinces" />
@@ -96,7 +104,7 @@ export default function ProvinceDetail() {
                 return (
                   <PlaceCard
                     key={d.code}
-                    to={`/district/${d.code}`}
+                    to={districtPath(province, d)}
                     code={d.code}
                     post={pc(d.code)}
                     title={typed(DKEY[d.t], d)}

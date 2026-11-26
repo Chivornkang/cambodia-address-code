@@ -3,18 +3,19 @@ import CambodiaMap from '../components/CambodiaMap'
 import ProvincePanel from '../components/ProvincePanel'
 import Stat from '../components/Stat'
 import { useApp } from '../store'
+import { matchProvince, slug } from '../slug'
 import { useSeo } from '../useSeo'
 
 export default function Home() {
   const { t, num, nm, provinces, totals, loadError } = useApp()
   const [sp, setSp] = useSearchParams()
 
-  const province = provinces?.find((p) => p.code === sp.get('p'))
+  const province = matchProvince(provinces, sp.get('p'))
   useSeo(null, null, '/')
 
   const select = (code) => {
     // stay where we are — the user scrolls to the details themselves
-    setSp({ p: code }, { replace: true })
+    setSp({ p: slug(provinces?.find((p) => p.code === code)?.en || code) }, { replace: true })
   }
   const clear = () => setSp({}, { replace: true })
 

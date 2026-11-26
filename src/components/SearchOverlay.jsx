@@ -2,6 +2,7 @@ import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { DKEY, cKeyOf, pKeyOf, useApp } from '../store'
 import { loadIndex, norm } from '../searchIndex'
+import { slug } from '../slug'
 
 const CAPS = [6, 10, 12, 24] // max results per level: province, district, commune, village
 
@@ -77,8 +78,8 @@ export default function SearchOverlay({ open, onClose }) {
 
   const go = (it) => {
     const to =
-      it.lvl === 0 ? `/province/${it.code}`
-      : it.lvl === 1 ? `/district/${it.code}`
+      it.lvl === 0 ? `/province/${slug(it.en)}`
+      : it.lvl === 1 ? `/district/${slug(index.names.get(it.code.slice(0, 2))?.en || it.code.slice(0, 2))}/${slug(it.en)}`
       : it.lvl === 2 ? `/commune/${it.code}`
       : `/commune/${it.code.slice(0, 6)}?v=${it.code}`
     onClose()

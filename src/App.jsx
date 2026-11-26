@@ -46,7 +46,8 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/provinces" element={<Provinces />} />
           <Route path="/province/:code" element={<ProvinceDetail />} />
-          <Route path="/district/:code" element={<DistrictDetail />} />
+          <Route path="/district/:pkey/:dkey" element={<DistrictDetail />} />
+          <Route path="/district/:dkey" element={<DistrictDetail />} />
           <Route path="/commune/:code" element={<CommuneDetail />} />
           <Route path="*" element={<NotFoundBox />} />
         </Routes>

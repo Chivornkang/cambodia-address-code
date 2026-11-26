@@ -16,12 +16,13 @@ const urls = [
   { loc: '/', pr: '1.0' },
   { loc: '/provinces', pr: '0.9' },
 ]
+const slug = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 const dir = join(root, 'public/data/p')
 for (const f of readdirSync(dir).filter((f) => f.endsWith('.json')).sort()) {
   const p = JSON.parse(readFileSync(join(dir, f), 'utf8'))
-  urls.push({ loc: `/province/${p.code}`, pr: '0.8' })
+  urls.push({ loc: `/province/${slug(p.en)}`, pr: '0.8' })
   for (const d of p.d) {
-    urls.push({ loc: `/district/${d.code}`, pr: '0.6' })
+    urls.push({ loc: `/district/${slug(p.en)}/${slug(d.en)}`, pr: '0.6' })
     for (const c of d.c) urls.push({ loc: `/commune/${c.code}`, pr: '0.4' })
   }
 }

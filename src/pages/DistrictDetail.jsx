@@ -1,5 +1,5 @@
 import { useDeferredValue, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import DetailHero from '../components/DetailHero'
 import NotFoundBox from '../components/NotFoundBox'
 import PlaceCard from '../components/PlaceCard'
@@ -7,32 +7,40 @@ import VillageCard from '../components/VillageCard'
 import { DKEY, cKeyOf, useApp } from '../store'
 import { useProvinceData } from '../useProvinceData'
 import { useScoped } from '../useScoped'
+import { districtPath, matchProvince, provincePath, slug } from '../slug'
 import { biDistrict, biProvince, useSeo } from '../useSeo'
 
 const LIMIT = 60
 
 export default function DistrictDetail() {
-  const { code } = useParams() // 4-digit district code
-  const pcode = code.slice(0, 2)
+  const { pkey, dkey } = useParams() // /district/<province>/<district>, or legacy /district/<4-digit code>
+  const nav = useNavigate()
   const { t, num, typed, typed2, fullName, describeDistrict, pc, provinces, loadError, lblCommunes } = useApp()
+  // province: from the name in the URL, or from the first 2 digits of a legacy code
+  const province = matchProvince(provinces, pkey ?? dkey.slice(0, 2))
+  const pcode = province?.code
   const { data, error } = useProvinceData(pcode)
   const [q, setQ] = useState('')
   const dq = useDeferredValue(q)
-  useEffect(() => setQ(''), [code])
 
-  const province = provinces?.find((p) => p.code === pcode)
-  const district = data?.d.find((d) => d.code === code)
+  const district = data?.d.find((d) => d.code === dkey || slug(d.en) === dkey)
+  const code = district?.code
+  useEffect(() => setQ(''), [code])
+  // old /district/0102 links → readable name URL
+  useEffect(() => {
+    if (province && district && (pkey == null || dkey !== slug(district.en))) nav(districtPath(province, district), { replace: true })
+  }, [province, district, pkey, dkey, nav])
   const res = useScoped(data, dq, code)
   useSeo(
     province && district && `${biDistrict(district)}, ${province.en} | លេខកូដតំបន់ Postcode · Cambodia Explorer`,
     province &&
       district &&
       `${biDistrict(district)} ស្ថិតក្នុង ${biProvince(province)}៖ ឃុំ ភូមិ និងលេខកូដតំបន់។ Communes, villages and area codes of ${biDistrict(district)}, ${province.en}, Cambodia.`,
-    `/district/${code}`
+    province && district && districtPath(province, district)
   )
 
   if (provinces && !province) return <NotFoundBox to="/provinces" />
-  if (data && !district) return <NotFoundBox to={`/province/${pcode}`} />
+  if (data && !district) return <NotFoundBox to={provincePath(province)} />
   if (!province || !district) {
     return (
       <div className="container">
@@ -51,7 +59,7 @@ export default function DistrictDetail() {
       <DetailHero
         crumbs={[
           { to: '/provinces', label: t('navProvinces') },
-          { to: `/province/${pcode}`, label: fullName(province) },
+          { to: provincePath(province), label: fullName(province) },
           { label: typed(dk, district) },
         ]}
         badges={
