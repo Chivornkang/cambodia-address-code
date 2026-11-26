@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="km" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b1020" />
+    <meta name="description" content="Interactive map of Cambodia: provinces, districts, communes and villages. ផែនទីអន្តរកម្មកម្ពុជា ខេត្ត ស្រុក ឃុំ ភូមិ។" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script>
+      // apply the saved theme before first paint (no flash)
+      try {
+        var t = localStorage.getItem('theme')
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t
+      } catch (e) {}
+    </script>
+    <title>Cambodia Explorer · ផែនទីកម្ពុជា</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
