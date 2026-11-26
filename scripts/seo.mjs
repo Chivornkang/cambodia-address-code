@@ -22,8 +22,8 @@ for (const f of readdirSync(dir).filter((f) => f.endsWith('.json')).sort()) {
   const p = JSON.parse(readFileSync(join(dir, f), 'utf8'))
   urls.push({ loc: `/province/${slug(p.en)}`, pr: '0.8' })
   for (const d of p.d) {
-    urls.push({ loc: `/district/${slug(p.en)}/${slug(d.en)}`, pr: '0.6' })
-    for (const c of d.c) urls.push({ loc: `/commune/${c.code}`, pr: '0.4' })
+    urls.push({ loc: `/province/${slug(p.en)}/${slug(d.en)}`, pr: '0.6' })
+    for (const c of d.c) urls.push({ loc: `/province/${slug(p.en)}/${c.code}`, pr: '0.4' })
   }
 }
 

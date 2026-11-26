@@ -7,7 +7,7 @@ import VillageCard from '../components/VillageCard'
 import { DKEY, cKeyOf, useApp } from '../store'
 import { useProvinceData } from '../useProvinceData'
 import { useScoped } from '../useScoped'
-import { districtPath, matchProvince, provincePath } from '../slug'
+import { communePath, districtPath, matchProvince, provincePath } from '../slug'
 import { biProvince, useSeo } from '../useSeo'
 
 const LIMIT = 60
@@ -127,7 +127,7 @@ export default function ProvinceDetail() {
                   {communes.slice(0, LIMIT).map(({ c, d }) => (
                     <PlaceCard
                       key={c.code}
-                      to={`/commune/${c.code}`}
+                      to={communePath(province, c)}
                       code={c.code}
                       post={pc(c.code)}
                       title={typed(cKeyOf(d.t), c)}
@@ -152,7 +152,7 @@ export default function ProvinceDetail() {
                 </h2>
                 <div className="grid">
                   {villages.slice(0, LIMIT).map(({ v, c, d }) => (
-                    <VillageCard key={v.code} v={v} c={c} d={d} p={province} to={`/commune/${c.code}?v=${v.code}`} />
+                    <VillageCard key={v.code} v={v} c={c} d={d} p={province} to={`${communePath(province, c)}?v=${v.code}`} />
                   ))}
                 </div>
                 {villages.length > LIMIT && (

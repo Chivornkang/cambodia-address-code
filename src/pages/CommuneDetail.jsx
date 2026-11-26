@@ -1,16 +1,19 @@
 import { useDeferredValue, useEffect, useMemo, useState } from 'react'
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import DetailHero from '../components/DetailHero'
 import NotFoundBox from '../components/NotFoundBox'
 import VillageCard from '../components/VillageCard'
 import { DKEY, cKeyOf, useApp } from '../store'
 import { norm } from '../searchIndex'
 import { useProvinceData } from '../useProvinceData'
-import { districtPath, provincePath } from '../slug'
+import { communePath, districtPath, provincePath } from '../slug'
 import { biCommune, biDistrict, biProvince, useSeo } from '../useSeo'
 
 export default function CommuneDetail() {
-  const { code } = useParams() // 6-digit commune code
+  const params = useParams() // /province/<province>/<6-digit commune code>, or legacy /commune/<code>
+  const code = params.sub ?? params.code
+  const nav = useNavigate()
+  const { pathname, search } = useLocation()
   const pcode = code.slice(0, 2)
   const dcode = code.slice(0, 4)
   const [sp] = useSearchParams()
@@ -24,12 +27,16 @@ export default function CommuneDetail() {
   const province = provinces?.find((p) => p.code === pcode)
   const district = data?.d.find((d) => d.code === dcode)
   const commune = district?.c.find((c) => c.code === code)
+  // old /commune/<code> links → /province/<name>/<code>
+  useEffect(() => {
+    if (province && commune && pathname !== communePath(province, commune)) nav(communePath(province, commune) + search, { replace: true })
+  }, [province, commune, pathname, search, nav])
   useSeo(
     commune && province && `${biCommune(commune, district)}, ${province.en} | ភូមិ លេខកូដតំបន់ · Cambodia Explorer`,
     commune &&
       province &&
       `${biCommune(commune, district)} ក្នុង ${biDistrict(district)} ${biProvince(province)}៖ បញ្ជីភូមិ និងលេខកូដតំបន់។ Villages and area codes of ${biCommune(commune, district)}, ${district.en}, ${province.en}, Cambodia.`,
-    `/commune/${code}`
+    province && commune && communePath(province, commune)
   )
 
   const villages = useMemo(() => {

@@ -1,5 +1,5 @@
 import { useDeferredValue, useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import DetailHero from '../components/DetailHero'
 import NotFoundBox from '../components/NotFoundBox'
 import PlaceCard from '../components/PlaceCard'
@@ -7,13 +7,16 @@ import VillageCard from '../components/VillageCard'
 import { DKEY, cKeyOf, useApp } from '../store'
 import { useProvinceData } from '../useProvinceData'
 import { useScoped } from '../useScoped'
-import { districtPath, matchProvince, provincePath, slug } from '../slug'
+import { communePath, districtPath, matchProvince, provincePath, slug } from '../slug'
 import { biDistrict, biProvince, useSeo } from '../useSeo'
 
 const LIMIT = 60
 
 export default function DistrictDetail() {
-  const { pkey, dkey } = useParams() // /district/<province>/<district>, or legacy /district/<4-digit code>
+  const params = useParams() // /province/<province>/<district>, or legacy /district/...
+  const pkey = params.pkey
+  const dkey = params.sub ?? params.dkey
+  const { pathname } = useLocation()
   const nav = useNavigate()
   const { t, num, typed, typed2, fullName, describeDistrict, pc, provinces, loadError, lblCommunes } = useApp()
   // province: from the name in the URL, or from the first 2 digits of a legacy code
@@ -28,8 +31,8 @@ export default function DistrictDetail() {
   useEffect(() => setQ(''), [code])
   // old /district/0102 links → readable name URL
   useEffect(() => {
-    if (province && district && (pkey == null || dkey !== slug(district.en))) nav(districtPath(province, district), { replace: true })
-  }, [province, district, pkey, dkey, nav])
+    if (province && district && pathname !== districtPath(province, district)) nav(districtPath(province, district), { replace: true })
+  }, [province, district, pathname, nav])
   const res = useScoped(data, dq, code)
   useSeo(
     province && district && `${biDistrict(district)}, ${province.en} | លេខកូដតំបន់ Postcode · Cambodia Explorer`,
@@ -102,7 +105,7 @@ export default function DistrictDetail() {
           {res.communes.map(({ c }) => (
             <PlaceCard
               key={c.code}
-              to={`/commune/${c.code}`}
+              to={communePath(province, c)}
               code={c.code}
               post={pc(c.code)}
               title={typed(ck, c)}
@@ -119,7 +122,7 @@ export default function DistrictDetail() {
             </h2>
             <div className="grid">
               {res.villages.slice(0, LIMIT).map(({ v, c, d }) => (
-                <VillageCard key={v.code} v={v} c={c} d={d} p={province} to={`/commune/${c.code}?v=${v.code}`} />
+                <VillageCard key={v.code} v={v} c={c} d={d} p={province} to={`${communePath(province, c)}?v=${v.code}`} />
               ))}
             </div>
             {res.villages.length > LIMIT && (

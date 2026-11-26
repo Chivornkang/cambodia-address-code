@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Route, Routes, useLocation, useParams } from 'react-router-dom'
+import { isCommuneCode } from './slug'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import NotFoundBox from './components/NotFoundBox'
@@ -16,6 +17,12 @@ function ScrollToTop() {
     window.scrollTo(0, 0)
   }, [pathname])
   return null
+}
+
+// /province/<name>/<x>: x = 6-digit commune code → commune page, otherwise a district name
+function ProvinceSub() {
+  const { sub } = useParams()
+  return isCommuneCode(sub) ? <CommuneDetail /> : <DistrictDetail />
 }
 
 export default function App() {
@@ -46,6 +53,8 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/provinces" element={<Provinces />} />
           <Route path="/province/:code" element={<ProvinceDetail />} />
+          <Route path="/province/:pkey/:sub" element={<ProvinceSub />} />
+          {/* old URL formats, redirected to the new ones */}
           <Route path="/district/:pkey/:dkey" element={<DistrictDetail />} />
           <Route path="/district/:dkey" element={<DistrictDetail />} />
           <Route path="/commune/:code" element={<CommuneDetail />} />

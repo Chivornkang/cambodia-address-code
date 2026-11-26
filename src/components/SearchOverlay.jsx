@@ -77,11 +77,12 @@ export default function SearchOverlay({ open, onClose }) {
   }
 
   const go = (it) => {
+    const pp = `/province/${slug(index.names.get(it.code.slice(0, 2))?.en || it.code.slice(0, 2))}`
     const to =
       it.lvl === 0 ? `/province/${slug(it.en)}`
-      : it.lvl === 1 ? `/district/${slug(index.names.get(it.code.slice(0, 2))?.en || it.code.slice(0, 2))}/${slug(it.en)}`
-      : it.lvl === 2 ? `/commune/${it.code}`
-      : `/commune/${it.code.slice(0, 6)}?v=${it.code}`
+      : it.lvl === 1 ? `${pp}/${slug(it.en)}`
+      : it.lvl === 2 ? `${pp}/${it.code}`
+      : `${pp}/${it.code.slice(0, 6)}?v=${it.code}`
     onClose()
     nav(to)
   }
