@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd166"/><stop offset="1" stop-color="#e5384f"/></linearGradient>
+<linearGradient id="b" x1="0" x2="1"><stop offset="0" stop-color="#5f7bd1"/><stop offset=".5" stop-color="#e8334f"/><stop offset="1" stop-color="#e2b45c"/></linearGradient></defs>
+<rect width="1200" height="630" fill="#0b1020"/><rect width="1200" height="10" fill="url(#b)"/>
+<g transform="translate(110 170) scale(4.6)"><rect width="64" height="64" rx="16" fill="#151b36"/><path d="M32 11c-8.3 0-15 6.7-15 15 0 11 15 27 15 27s15-16 15-27c0-8.3-6.7-15-15-15z" fill="url(#g)"/><circle cx="32" cy="26" r="5.5" fill="#151b36"/></g>
+<text x="420" y="270" font-family="Kantumruy Pro, Noto Sans Khmer, sans-serif" font-size="68" font-weight="700" fill="#eef0f8">Cambodia Explorer</text>
+<text x="420" y="365" font-family="Kantumruy Pro, Noto Sans Khmer, sans-serif" font-size="56" font-weight="600" fill="#e2b45c">ផែនទីកម្ពុជា</text>
+<text x="420" y="450" font-family="Kantumruy Pro, Noto Sans Khmer, sans-serif" font-size="28" fill="#9aa2bf">Map · Postcode · Province · District · Commune · Village</text>
+</svg>

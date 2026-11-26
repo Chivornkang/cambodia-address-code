@@ -7,6 +7,7 @@ import VillageCard from '../components/VillageCard'
 import { DKEY, cKeyOf, useApp } from '../store'
 import { useProvinceData } from '../useProvinceData'
 import { useScoped } from '../useScoped'
+import { biDistrict, biProvince, useSeo } from '../useSeo'
 
 const LIMIT = 60
 
@@ -22,6 +23,13 @@ export default function DistrictDetail() {
   const province = provinces?.find((p) => p.code === pcode)
   const district = data?.d.find((d) => d.code === code)
   const res = useScoped(data, dq, code)
+  useSeo(
+    province && district && `${biDistrict(district)}, ${province.en} | លេខកូដតំបន់ Postcode · Cambodia Explorer`,
+    province &&
+      district &&
+      `${biDistrict(district)} ស្ថិតក្នុង ${biProvince(province)}៖ ឃុំ ភូមិ និងលេខកូដតំបន់។ Communes, villages and area codes of ${biDistrict(district)}, ${province.en}, Cambodia.`,
+    `/district/${code}`
+  )
 
   if (provinces && !province) return <NotFoundBox to="/provinces" />
   if (data && !district) return <NotFoundBox to={`/province/${pcode}`} />

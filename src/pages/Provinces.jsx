@@ -1,11 +1,17 @@
 import { useMemo, useState } from 'react'
 import PlaceCard from '../components/PlaceCard'
 import { useApp } from '../store'
+import { useSeo } from '../useSeo'
 
 export default function Provinces() {
   const { t, num, nm, fullName, provinces, loadError, lblDistricts, lblCommunes, pc } = useApp()
   const [q, setQ] = useState('')
   const [sort, setSort] = useState('code')
+  useSeo(
+    'ខេត្ត-រាជធានីកម្ពុជា ២៥ · Provinces of Cambodia | Cambodia Explorer',
+    'បញ្ជីខេត្ត-រាជធានីទាំង ២៥ នៃកម្ពុជា ជាមួយលេខកូដតំបន់ ស្រុក ឃុំ ភូមិ។ All 25 provinces of Cambodia with area codes, districts, communes and villages.',
+    '/provinces'
+  )
 
   const list = useMemo(() => {
     if (!provinces) return []

@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom'
 import { DKEY, cKeyOf, useApp } from '../store'
 
-// Village card: "ភូមិ…" title plus the place line "ឃុំ/សង្កាត់ · ស្រុក/ក្រុង/ខណ្ឌ · ខេត្ត/រាជធានី".
+// Village card: "ភូមិ…" title plus the full place line "ភូមិ… ឃុំ/សង្កាត់… ស្រុក/ក្រុង/ខណ្ឌ… ខេត្ត/រាជធានី…".
 // v = village, c = commune, d = district, p = province (all {code, kh, en}); d.t is the district type.
 export default function VillageCard({ v, c, d, p, to, highlight }) {
   const { typed, typed2, fullName, pc } = useApp()
   const post = pc(v.code)
-  const line = [typed(cKeyOf(d.t), c), typed(DKEY[d.t], d), fullName(p)].join(' · ')
+  const line = [typed('village', v), typed(cKeyOf(d.t), c), typed(DKEY[d.t], d), fullName(p)].join(' ')
   const body = (
     <>
       <div className="p-card-top">

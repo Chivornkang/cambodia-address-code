@@ -7,6 +7,7 @@ import VillageCard from '../components/VillageCard'
 import { DKEY, cKeyOf, useApp } from '../store'
 import { useProvinceData } from '../useProvinceData'
 import { useScoped } from '../useScoped'
+import { biProvince, useSeo } from '../useSeo'
 
 const LIMIT = 60
 
@@ -22,6 +23,12 @@ export default function ProvinceDetail() {
 
   const province = provinces?.find((p) => p.code === code)
   const res = useScoped(data, dq, null)
+  useSeo(
+    province && `${biProvince(province)} | លេខកូដតំបន់ Postcode · Cambodia Explorer`,
+    province &&
+      `ផែនទី និងលេខកូដតំបន់ ${province.kh}៖ ${province.districts} ស្រុក/ក្រុង/ខណ្ឌ ${province.communes} ឃុំ/សង្កាត់ ${province.villages} ភូមិ។ Map, postcode and area codes of ${province.en}, Cambodia.`,
+    `/province/${code}`
+  )
 
   if (provinces && !province) return <NotFoundBox to="/provinces" />
   if (!province) {
@@ -117,7 +124,7 @@ export default function ProvinceDetail() {
                       post={pc(c.code)}
                       title={typed(cKeyOf(d.t), c)}
                       sub={typed2(cKeyOf(d.t), c)}
-                      line={`${typed(DKEY[d.t], d)} · ${fullName(province)}`}
+                      line={`${typed(DKEY[d.t], d)}  ${fullName(province)}`}
                       stats={[{ v: num(c.v.length), l: t('villages') }]}
                     />
                   ))}

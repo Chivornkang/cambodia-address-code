@@ -6,6 +6,7 @@ import VillageCard from '../components/VillageCard'
 import { DKEY, cKeyOf, useApp } from '../store'
 import { norm } from '../searchIndex'
 import { useProvinceData } from '../useProvinceData'
+import { biCommune, biDistrict, biProvince, useSeo } from '../useSeo'
 
 export default function CommuneDetail() {
   const { code } = useParams() // 6-digit commune code
@@ -22,6 +23,13 @@ export default function CommuneDetail() {
   const province = provinces?.find((p) => p.code === pcode)
   const district = data?.d.find((d) => d.code === dcode)
   const commune = district?.c.find((c) => c.code === code)
+  useSeo(
+    commune && province && `${biCommune(commune, district)}, ${province.en} | ភូមិ លេខកូដតំបន់ · Cambodia Explorer`,
+    commune &&
+      province &&
+      `${biCommune(commune, district)} ក្នុង ${biDistrict(district)} ${biProvince(province)}៖ បញ្ជីភូមិ និងលេខកូដតំបន់។ Villages and area codes of ${biCommune(commune, district)}, ${district.en}, ${province.en}, Cambodia.`,
+    `/commune/${code}`
+  )
 
   const villages = useMemo(() => {
     if (!commune) return []

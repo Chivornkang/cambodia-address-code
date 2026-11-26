@@ -1,0 +1,11 @@
+{
+  "name": "Cambodia Explorer · ផែនទីកម្ពុជា",
+  "short_name": "Cambodia Explorer",
+  "description": "Interactive Cambodia map: provinces, districts, communes, villages and area codes.",
+  "lang": "km",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b1020",
+  "theme_color": "#0b1020",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

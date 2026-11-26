@@ -4,8 +4,58 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0b1020" />
-    <meta name="description" content="Interactive map of Cambodia: provinces, districts, communes and villages. ផែនទីអន្តរកម្មកម្ពុជា ខេត្ត ស្រុក ឃុំ ភូមិ។" />
+
+    <title>Cambodia Explorer · ផែនទីកម្ពុជា | Cambodia Postcode, Map Code &amp; ភូមិសាស្ត្រកម្ពុជា</title>
+    <meta name="description" content="ផែនទីកម្ពុជា ភូមិសាស្ត្រកម្ពុជា លេខកូដតំបន់ ភូមិ ឃុំ ស្រុក ខេត្ត។ Cambodia Explorer: interactive Cambodia map with postcode and area codes for 25 provinces, districts, communes and villages." />
+    <meta name="keywords" content="Cambodia Explorer, cambodia postcode, cambodia postal code, cambodia map code, cambodia map, cambodia provinces, ផែនទីកម្ពុជា, ភូមិសាស្ត្រកម្ពុជា, លេខកូដតំបន់, លេខកូដតំបន់ ភូមិ ឃុំ ស្រុក, ភូមិ ឃុំ ស្រុក ខេត្ត, លេខកូដប្រៃសណីយ៍" />
+    <meta name="author" content="Chivorn Kang" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="%VITE_SITE_URL%/" />
+    <link rel="alternate" hreflang="km" href="%VITE_SITE_URL%/" />
+    <link rel="alternate" hreflang="en" href="%VITE_SITE_URL%/" />
+    <link rel="alternate" hreflang="x-default" href="%VITE_SITE_URL%/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Cambodia Explorer" />
+    <meta property="og:locale" content="km_KH" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:title" content="Cambodia Explorer · ផែនទីកម្ពុជា | Cambodia Postcode, Map Code &amp; ភូមិសាស្ត្រកម្ពុជា" />
+    <meta property="og:description" content="ផែនទីកម្ពុជា ភូមិសាស្ត្រកម្ពុជា លេខកូដតំបន់ ភូមិ ឃុំ ស្រុក ខេត្ត។ Interactive Cambodia map with postcode and area codes." />
+    <meta property="og:url" content="%VITE_SITE_URL%/" />
+    <meta property="og:image" content="%VITE_SITE_URL%/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Cambodia Explorer · ផែនទីកម្ពុជា" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Cambodia Explorer · ផែនទីកម្ពុជា" />
+    <meta name="twitter:description" content="Interactive Cambodia map: postcode, area codes, provinces, districts, communes and villages." />
+    <meta name="twitter:image" content="%VITE_SITE_URL%/og-image.png" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "name": "Cambodia Explorer",
+            "alternateName": ["ផែនទីកម្ពុជា", "ភូមិសាស្ត្រកម្ពុជា", "Cambodia Map", "Cambodia Postcode"],
+            "url": "%VITE_SITE_URL%/",
+            "inLanguage": ["km", "en"]
+          },
+          {
+            "@type": "Dataset",
+            "name": "Cambodia Geographical List · ការបែងចែកភូមិសាស្ត្រកម្ពុជា",
+            "description": "Provinces, districts, communes and villages of Cambodia with area codes.",
+            "url": "https://data.mef.gov.kh/datasets/pd_68e370856a965e00074a5e7b",
+            "keywords": ["cambodia postcode", "cambodia map code", "ផែនទីកម្ពុជា", "ភូមិសាស្ត្រកម្ពុជា", "លេខកូដតំបន់"],
+            "spatialCoverage": "Cambodia"
+          }
+        ]
+      }
+    </script>
+
     <script>
       // apply the saved theme before first paint (no flash)
       try {
@@ -13,10 +63,13 @@
         if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t
       } catch (e) {}
     </script>
-    <title>Cambodia Explorer · ផែនទីកម្ពុជា</title>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <h1>Cambodia Explorer · ផែនទីកម្ពុជា</h1>
+      <p>ផែនទីអន្តរកម្ម ភូមិសាស្ត្រកម្ពុជា លេខកូដតំបន់ ភូមិ ឃុំ ស្រុក ខេត្ត។ Interactive Cambodia map with postcode and area codes for provinces, districts, communes and villages. Please enable JavaScript.</p>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

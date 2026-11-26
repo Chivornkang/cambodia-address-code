@@ -1,22 +1,20 @@
-import { useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import CambodiaMap from '../components/CambodiaMap'
 import ProvincePanel from '../components/ProvincePanel'
 import Stat from '../components/Stat'
 import { useApp } from '../store'
+import { useSeo } from '../useSeo'
 
 export default function Home() {
   const { t, num, nm, provinces, totals, loadError } = useApp()
   const [sp, setSp] = useSearchParams()
-  const panelRef = useRef(null)
 
   const province = provinces?.find((p) => p.code === sp.get('p'))
+  useSeo(null, null, '/')
 
   const select = (code) => {
+    // stay where we are — the user scrolls to the details themselves
     setSp({ p: code }, { replace: true })
-    if (window.innerWidth < 900) {
-      setTimeout(() => panelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60)
-    }
   }
   const clear = () => setSp({}, { replace: true })
 
@@ -24,7 +22,7 @@ export default function Home() {
     <div className="container">
       <section className="hero">
         <h1>{t('heroTitle')}</h1>
-        <p className="muted">{t('heroSub')}</p>
+        {/* <p className="muted">{t('heroSub')}</p> */}
       </section>
 
       {loadError && <p className="notice">{t('loadError')}</p>}
@@ -33,19 +31,19 @@ export default function Home() {
         <section className="card map-card">
           <label className="select-wrap">
             <span className="sr-only">{t('choose')}</span>
-            <select value={province?.code || ''} onChange={(e) => e.target.value && select(e.target.value)}>
+            {/* <select value={province?.code || ''} onChange={(e) => e.target.value && select(e.target.value)}>
               <option value="">{t('choose')}</option>
               {provinces?.map((p) => (
                 <option key={p.code} value={p.code}>
                   {nm(p)[0]}
                 </option>
               ))}
-            </select>
+            </select> */}
           </label>
           <CambodiaMap active={province?.code} onSelect={select} />
         </section>
 
-        <aside className="card panel" ref={panelRef}>
+        <aside className="card panel">
           {province ? (
             <ProvincePanel key={province.code} province={province} onClose={clear} />
           ) : (
